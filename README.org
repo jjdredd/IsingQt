@@ -1,4 +1,4 @@
 * IsingQt
 
 Ising model monte-carlo with Qt visualization
-[[https://en.wikipedia.org/wiki/Ising_model] [Ising model on Wikipedia]]
+[[https://en.wikipedia.org/wiki/Ising_model][Ising model on Wikipedia]]
