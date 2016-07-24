@@ -109,8 +109,7 @@ double IsingMC::Energy() {
 
 double IsingMC::EnergyDiff(unsigned m, unsigned n) {
 
-	double de = SpinEnergy(m, n);
-	return - 2 * de;
+	return -2 * SpinEnergy(m, n);
 }
 
 void IsingMC::Step() {
@@ -120,7 +119,17 @@ void IsingMC::Step() {
 	while (true) {
 		RandomPoint(i, j);
 
-		double de = EnergyDiff(i, j);
+		// double de = EnergyDiff(i, j);
+		double de = 0;
+
+		{
+			double E_1 = Energy();
+			Lattice[i][j] = -Lattice[i][j];
+			de = Energy() - E_1;
+			Lattice[i][j] = -Lattice[i][j];
+		}
+
+
 		if (de < 0
 		    || ((static_cast<double> (random()) / RAND_MAX)
 			< exp(-beta * de) ) ) {

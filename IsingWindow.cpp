@@ -19,7 +19,9 @@ void IsingWindow::paintEvent(QPaintEvent *e) {
 	QPainter qp(this);
 	unsigned PenSize = 0;
 
-	for (unsigned i = 0; i < imc->XSize() * imc->YSize(); i++) imc->Step();
+	for (unsigned i = 0; i < 100// imc->XSize() * imc->YSize()
+		     ; i++) imc->Step();
+	// std::cout << imc->Energy() << std::endl;
 
 	QPen WhitePen(Qt::white, PenSize, Qt::SolidLine),
 		BlackPen(Qt::black, PenSize, Qt::SolidLine);

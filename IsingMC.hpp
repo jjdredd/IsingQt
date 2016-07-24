@@ -17,7 +17,6 @@ private:
 	int **Lattice;
 	double J, beta;
 
-
 	void RandomPoint(unsigned&, unsigned&);
 	double SpinEnergy(unsigned, unsigned);
 	double EnergyDiff(unsigned, unsigned);
