@@ -17,10 +17,11 @@ void IsingWindow::paintEvent(QPaintEvent *e) {
 	Q_UNUSED(e);
 
 	QPainter qp(this);
-	unsigned PenSize = 0;
+	unsigned PenSize = 2;
+	unsigned offset = PenSize ? PenSize : 1;
 
-	for (unsigned i = 0; i < 100// imc->XSize() * imc->YSize()
-		     ; i++) imc->Step();
+	for (unsigned i = 0; i < 100 // imc->XSize() * imc->YSize()
+		     ;i++) imc->Step();
 	// std::cout << imc->Energy() << std::endl;
 
 	QPen WhitePen(Qt::white, PenSize, Qt::SolidLine),
@@ -32,7 +33,7 @@ void IsingWindow::paintEvent(QPaintEvent *e) {
 				qp.setPen(WhitePen);
 			} else 	qp.setPen(BlackPen);
 
-			qp.drawPoint(i, j);
+			qp.drawPoint(offset * i, offset * j);
 		}
 	}
 }
