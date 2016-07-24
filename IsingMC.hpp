@@ -8,6 +8,9 @@ public:
 	~IsingMC();
 	double Energy();
 	void Step();
+	int GetSpin(unsigned, unsigned);
+	unsigned XSize();
+	unsigned YSize();
 
 private:
 	unsigned N, M;
@@ -18,6 +21,6 @@ private:
 	void RandomPoint(unsigned&, unsigned&);
 	double SpinEnergy(unsigned, unsigned);
 	
-}
+};
 
 #endif _ISINGMC_ 		// #ifndef _ISINGMC_

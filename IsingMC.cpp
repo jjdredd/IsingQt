@@ -42,8 +42,8 @@ void IsingMC::RandomPoint(unsigned& m, unsigned& n) {
 double IsingMC::SpinEnergy(unsigned m, unsigned n) {
 
 	double E = 0;
-	for (unsigned i = m - 1 ; i < m + 1; i += 2) {
-		for (unsigned j = n - 1; j < n + 1; j += 2) {
+	for (int i = m - 1 ; i < m + 1; i += 2) {
+		for (int j = n - 1; j < n + 1; j += 2) {
 
 			if (i < 0) ii = M - 1;
 			else if (i >= M - 1) ii = 0;
@@ -84,3 +84,15 @@ void IsingMC::Step() {
 
 	if ()
 }
+
+int IsingMC::GetSpin(unsigned i, unsigned j) {
+	return Lattice[i][j];
+}
+
+unsigned IsingMC::XSize() {
+	return M;
+}
+unsigned IsingMC::YSize() {
+	return N;
+}
+
