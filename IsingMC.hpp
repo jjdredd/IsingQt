@@ -13,14 +13,16 @@ public:
 	unsigned YSize();
 
 private:
-	unsigned N, M;
+	unsigned M, N;
 	int **Lattice;
 	double J, beta;
 
 
 	void RandomPoint(unsigned&, unsigned&);
 	double SpinEnergy(unsigned, unsigned);
+	double EnergyDiff(unsigned, unsigned);
+	double SpinUHEnergy(unsigned m, unsigned n);
 	
 };
 
-#endif _ISINGMC_ 		// #ifndef _ISINGMC_
+#endif	// #ifndef _ISINGMC_

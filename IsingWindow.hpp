@@ -1,9 +1,9 @@
 #ifndef _ISING_WINDOW_
 #define _ISING_WINDOW_
 
-#include <Qwidget>
+#include <QWidget>
 
-#include "IsingMC"
+#include "IsingMC.hpp"
 
 class IsingWindow : public QWidget {
 
@@ -20,4 +20,4 @@ private:
 };
 
 
-#endif _ISING_WINDOW_		// #ifndef _ISING_WINDOW_
+#endif	// #ifndef _ISING_WINDOW_

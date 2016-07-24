@@ -1,3 +1,4 @@
+#include <iostream>
 #include <QPainter>
 #include "IsingWindow.hpp"
 
@@ -11,16 +12,17 @@ IsingWindow::~IsingWindow() {
 	delete imc;
 }
 
-void IsingWindow::paintEvent(QPaintEvent *e); {
+void IsingWindow::paintEvent(QPaintEvent *e) {
 
 	Q_UNUSED(e);
 
 	QPainter qp(this);
+	unsigned PenSize = 0;
 
 	imc->Step();
 
-	QPen WhitePen(Qt::white, 1, Qt::SolidLine),
-		BlackPenpen(Qt::black, 2, Qt::SolidLine);
+	QPen WhitePen(Qt::white, PenSize, Qt::SolidLine),
+		BlackPen(Qt::black, PenSize, Qt::SolidLine);
 	for (unsigned i = 0; i < imc->XSize(); i++) {
 		for (unsigned j = 0; j < imc->YSize(); j++) {
 
