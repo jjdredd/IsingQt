@@ -50,33 +50,49 @@ void IsingMC::RandomPoint(unsigned& m, unsigned& n) {
 double IsingMC::SpinEnergy(unsigned m, unsigned n) {
 
 	double E = 0;
-	for (int i = m - 1 ; i < m + 1; i += 2) {
-		for (int j = n - 1; j < n + 1; j += 2) {
+	int i, j;
 
-			unsigned ii = i, jj = j;
-			if (i < 0) ii = M - 1;
-			else if (i >= M - 1) ii = 0;
-
-			if (j < 0) jj = N - 1;
-			else if (j >= N - 1) jj = 0;
-
-			E -= Lattice[ii][jj] * Lattice[m][n] * J;
-		}
+	j = n;
+	for (i = m - 1; i < m + 1; i += 2) {
+		unsigned ii;
+		if (i < 0) ii = M - 1;
+		else if (i > M - 1) ii = 0;
+		else ii = i;
+		E -= Lattice[ii][j] * Lattice[m][n] * J;
 	}
+
+	i = m;
+	for (j = n - 1; j < n + 1; j += 2) {
+		unsigned jj;
+		if (j < 0) jj = N - 1;
+		else if (j > N - 1) jj = 0;
+		else jj = j;
+		E -= Lattice[i][jj] * Lattice[m][n] * J;
+	}
+
 	return E;
 }
 
 double IsingMC::SpinUHEnergy(unsigned m, unsigned n) {
 
 	double E = 0;
-	for (unsigned i = m; i <= m + 1; i++) {
-		for (unsigned j = n; j <= n + 1; j++) {
-			int ii = i > M - 1 ? 0 : i;
-			int jj = j > N - 1 ? 0 : j;
 
-			E -= Lattice[ii][jj] * Lattice[m][n] * J;
-		}
+	unsigned i, j;
+
+	{
+		i = m + 1;
+		j = n;
+		unsigned ii = i > M - 1 ? 0 : i;
+		E -= Lattice[ii][j] * Lattice[m][n] * J;
 	}
+
+	{
+		i = m;
+		j = n + 1;
+		unsigned jj = j > N - 1 ? 0 : j;
+		E -= Lattice[i][jj] * Lattice[m][n] * J;
+	}
+
 	return E;
 }
 
@@ -93,9 +109,8 @@ double IsingMC::Energy() {
 
 double IsingMC::EnergyDiff(unsigned m, unsigned n) {
 
-	double de = 0;
-
-	return de;
+	double de = SpinEnergy(m, n);
+	return - 2 * de;
 }
 
 void IsingMC::Step() {

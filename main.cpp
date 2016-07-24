@@ -4,7 +4,7 @@
 int main(int argc, char *argv[]) {
 
 	QApplication app(argc, argv);
-	IsingWindow iw(150, 150, 20.4, 100.2);
+	IsingWindow iw(200, 200, 18.24, 1.2);
 
 	iw.resize(260, 260);
 	iw.setWindowTitle("2D Ising Monte-Carlo");
