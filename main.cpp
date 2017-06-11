@@ -3,10 +3,13 @@
 
 int main(int argc, char *argv[]) {
 
-	QApplication app(argc, argv);
-	IsingWindow iw(100, 100, 1.24, 1.2);
+	unsigned NX = 300;
+	unsigned NY = 300;
 
-	iw.resize(260, 260);
+	QApplication app(argc, argv);
+	IsingWindow iw(NX, NY, 1.24, 1.2);
+
+	// iw.resize(NX, NY);
 	iw.setWindowTitle("2D Ising Monte-Carlo");
 	iw.show();
 

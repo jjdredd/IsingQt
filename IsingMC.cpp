@@ -53,7 +53,7 @@ double IsingMC::SpinEnergy(unsigned m, unsigned n) {
 	int i, j;
 
 	j = n;
-	for (i = m - 1; i < m + 1; i += 2) {
+	for (i = m - 1; i <= m + 1; i += 2) {
 		unsigned ii;
 		if (i < 0) ii = M - 1;
 		else if (i > M - 1) ii = 0;
@@ -62,7 +62,7 @@ double IsingMC::SpinEnergy(unsigned m, unsigned n) {
 	}
 
 	i = m;
-	for (j = n - 1; j < n + 1; j += 2) {
+	for (j = n - 1; j <= n + 1; j += 2) {
 		unsigned jj;
 		if (j < 0) jj = N - 1;
 		else if (j > N - 1) jj = 0;
@@ -109,7 +109,7 @@ double IsingMC::Energy() {
 
 double IsingMC::EnergyDiff(unsigned m, unsigned n) {
 
-	return -2 * SpinEnergy(m, n);
+	return - 2 * SpinEnergy(m, n);
 }
 
 void IsingMC::Step() {
@@ -119,16 +119,14 @@ void IsingMC::Step() {
 	while (true) {
 		RandomPoint(i, j);
 
-		// double de = EnergyDiff(i, j);
-		double de = 0;
+		double de = EnergyDiff(i, j);
 
-		{
-			double E_1 = Energy();
-			Lattice[i][j] = -Lattice[i][j];
-			de = Energy() - E_1;
-			Lattice[i][j] = -Lattice[i][j];
-		}
-
+		// {
+		// 	double E_1 = Energy();
+		// 	Lattice[i][j] = -Lattice[i][j];
+		// 	de = Energy() - E_1;
+		// 	Lattice[i][j] = -Lattice[i][j];
+		// }
 
 		if (de < 0
 		    || ((static_cast<double> (random()) / RAND_MAX)
