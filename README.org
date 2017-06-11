@@ -2,3 +2,13 @@
 
 Ising model monte-carlo with Qt visualization
 [[https://en.wikipedia.org/wiki/Ising_model][Ising model on Wikipedia]]
+
+** Building
+
+   To build just
+   ```
+   cd IsingQt
+   qmake -project
+   qmake
+   make
+   ```
