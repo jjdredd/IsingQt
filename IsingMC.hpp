@@ -7,6 +7,7 @@ public:
 	IsingMC(unsigned, unsigned, double, double);
 	~IsingMC();
 	double Energy();
+	double Magnetization();
 	void Step();
 	int GetSpin(unsigned, unsigned);
 	unsigned XSize();

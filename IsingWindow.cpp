@@ -24,6 +24,10 @@ void IsingWindow::paintEvent(QPaintEvent *e) {
 		     ;i++) imc->Step();
 	// std::cout << imc->Energy() << std::endl;
 
+	// std::cout << "Energy: " << imc->Energy()
+	// 	  << " Magnetization: " << imc->Magnetization()
+	// 	  << std::endl;
+
 	QPen WhitePen(Qt::white, PenSize, Qt::SolidLine),
 		BlackPen(Qt::black, PenSize, Qt::SolidLine);
 	for (unsigned i = 0; i < imc->XSize(); i++) {

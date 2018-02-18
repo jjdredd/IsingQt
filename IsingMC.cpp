@@ -107,6 +107,19 @@ double IsingMC::Energy() {
 	return E;
 }
 
+
+double IsingMC::Magnetization() {
+
+	double magn = 0;
+	for (unsigned i = 0; i < M; i++) {
+		for (unsigned j = 0; j < N; j++) {
+			magn += Lattice[i][j];
+		}
+	}
+	return magn / (M * N);
+}
+
+
 double IsingMC::EnergyDiff(unsigned m, unsigned n) {
 
 	return - 2 * SpinEnergy(m, n);
