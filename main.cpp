@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QString>
 #include "IsingWindow.hpp"
 
 int main(int argc, char *argv[]) {
