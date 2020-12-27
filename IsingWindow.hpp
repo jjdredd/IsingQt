@@ -1,11 +1,19 @@
 #ifndef _ISING_WINDOW_
 #define _ISING_WINDOW_
 
+#include <QMainWindow>
 #include <QWidget>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QPainter>
+#include <QHBoxLayout>
+#include <QString>
 
 #include "IsingMC.hpp"
 
 class IsingWindow : public QWidget {
+
+	Q_OBJECT;
 
 public:
 	IsingWindow(unsigned, unsigned, double, double, QWidget *parent = 0);
@@ -16,6 +24,8 @@ protected:
 
 private:
 	IsingMC *imc;
+	QFormLayout *form;
+	QLineEdit *lne_J, *lne_b;
 
 };
 

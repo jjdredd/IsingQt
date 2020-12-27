@@ -3,18 +3,33 @@
 #include "IsingWindow.hpp"
 
 IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
-			 double beta, QWidget *parent) : QWidget(parent) {
+			 double beta, QWidget *parent) : QMainWindow(parent) {
 
 	imc = new IsingMC(M, N, J, beta);
+
+	lne_J = new QLineEdit( QString(std::to_string(J).c_str()) );
+	lne_b = new QLineEdit( QString(std::to_string(beta).c_str()) );
+
+	form = new QFormLayout;
+	form->addRow("Jparam:", lne_J);
+	form->addRow("bparam:", lne_b);
+
+	setLayout(form);
+	
+
 }
 
 IsingWindow::~IsingWindow() {
 	delete imc;
+	delete form;
+	delete lne_J;
+	delete lne_b;
 }
 
 void IsingWindow::paintEvent(QPaintEvent *e) {
 
 	Q_UNUSED(e);
+	return;
 
 	QPainter qp(this);
 	unsigned PenSize = 2;

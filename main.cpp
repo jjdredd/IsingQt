@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	iw.show();
 
 	while (true) {
-		iw.repaint();
+		// iw.repaint();
 		app.processEvents();
 	}
 
