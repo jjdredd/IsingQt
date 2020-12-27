@@ -12,6 +12,8 @@ public:
 	int GetSpin(unsigned, unsigned);
 	unsigned XSize();
 	unsigned YSize();
+	void SetJ(double);
+	void SetBeta(double);
 
 private:
 	unsigned M, N;

@@ -162,3 +162,12 @@ unsigned IsingMC::YSize() {
 	return N;
 }
 
+
+void IsingMC::SetJ(double val) {
+	J = val;
+}
+
+void IsingMC::SetBeta(double val) {
+	beta = val;
+}
+

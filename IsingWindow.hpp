@@ -11,7 +11,7 @@
 
 #include "IsingMC.hpp"
 
-class IsingWindow : public QWidget {
+class IsingWindow : public QMainWindow {
 
 	Q_OBJECT;
 
@@ -26,6 +26,10 @@ private:
 	IsingMC *imc;
 	QFormLayout *form;
 	QLineEdit *lne_J, *lne_b;
+
+public slots:
+	void le_set_J();
+	void le_set_b();
 
 };
 

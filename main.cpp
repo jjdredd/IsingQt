@@ -14,6 +14,10 @@ int main(int argc, char *argv[]) {
 	iw.setWindowTitle("2D Ising Monte-Carlo");
 	iw.show();
 
+	// need to run ising simulaiton in a separate thread
+
+	return app.exec();
+
 	while (true) {
 		// iw.repaint();
 		app.processEvents();
