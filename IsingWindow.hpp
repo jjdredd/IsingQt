@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QString>
+#include <QGridLayout>
 
 #include "IsingMC.hpp"
 
@@ -26,12 +27,17 @@ private:
 	IsingMC *imc;
 	QFormLayout *form;
 	QLineEdit *lne_J, *lne_b;
+	QGridLayout *grid;
+	QWidget *testsim;
 
 public slots:
 	void le_set_J();
 	void le_set_b();
 
 };
+
+// need new widget for ising window
+// with seperate computation thread
 
 
 #endif	// #ifndef _ISING_WINDOW_

@@ -6,6 +6,10 @@ IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 			 double beta, QWidget *parent) : QMainWindow(parent) {
 
 	imc = new IsingMC(M, N, J, beta);
+	grid = new QGridLayout;
+	testsim = new QWidget;
+	testsim->setFixedWidth(M);
+	testsim->setFixedHeight(N);
 
 	setCentralWidget(new QWidget);
 
@@ -16,18 +20,23 @@ IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 	form->addRow("Jparam:", lne_J);
 	form->addRow("bparam:", lne_b);
 
-	connect(lne_J, SIGNAL(returnPressed()), this, SLOT (le_set_J()));
+	connect(lne_J, SIGNAL (returnPressed()), this, SLOT (le_set_J()));
 	connect(lne_b, SIGNAL (returnPressed()), this, SLOT (le_set_b()));
 
-	centralWidget()->setLayout(form);
+	grid->addLayout(form, 0, 1);
+	grid->addWidget(testsim, 0, 0);
+
+	centralWidget()->setLayout(grid);
 
 }
 
 IsingWindow::~IsingWindow() {
 	delete imc;
-	delete form;
 	delete lne_J;
 	delete lne_b;
+	delete form;
+	delete testsim;
+	delete grid;
 }
 
 void IsingWindow::le_set_J() {

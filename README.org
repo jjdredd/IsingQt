@@ -8,7 +8,6 @@ Ising model monte-carlo with Qt visualization
    To build just
 #+BEGIN_SRC <shell>
    cd IsingQt
-   qmake -project
-   qmake
+   qmake -makefile IsingQt.pro
    make
 #+END_SRC
