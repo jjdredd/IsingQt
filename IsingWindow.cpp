@@ -3,7 +3,8 @@
 #include "IsingWindow.hpp"
 
 IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
-			 double beta, QWidget *parent) : QMainWindow(parent) {
+			 double beta, QWidget *parent)
+	: QMainWindow(parent) {
 
 	simwid = new IsingWidget(M, N, J, beta, parent);
 	grid = new QGridLayout;
@@ -14,22 +15,29 @@ IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 	lne_b = new QLineEdit( QString(std::to_string(beta).c_str()) );
 
 	form = new QFormLayout;
-	form->addRow("Jparam:", lne_J);
-	form->addRow("bparam:", lne_b);
+	form->addRow("J :", lne_J);
+	form->addRow("1/T :", lne_b);
 
-	connect(lne_J, SIGNAL (returnPressed()), this, SLOT (set_J()));
-	connect(lne_b, SIGNAL (returnPressed()), this, SLOT (set_b()));
+	connect(lne_J, SIGNAL (returnPressed()), this, SLOT (set_J()) );
+	connect(lne_b, SIGNAL (returnPressed()), this, SLOT (set_b()) );
 
-	grid->addLayout(form, 0, 1);
-	grid->addWidget(simwid, 0, 0);
+	btn_start = new QPushButton("Start", this);
+	btn_start->setCheckable(true);
+	connect(btn_start, SIGNAL (toggled(bool)), this, SLOT (toggle_simulation(bool)) );
+
+	grid->addLayout(form, 0, 2);
+	grid->addWidget(simwid, 0, 0, 2, 2);
+	grid->addWidget(btn_start, 1, 2);
 
 	centralWidget()->setLayout(grid);
 
 }
 
 IsingWindow::~IsingWindow() {
+	toggle_simulation(false); // XXX FIXME (data races)
 	delete lne_J;
 	delete lne_b;
+	delete btn_start;
 	delete form;
 	delete simwid;
 	delete grid;
@@ -40,8 +48,6 @@ void IsingWindow::set_J() {
 	double val = lne_J->text().toDouble(&status);
 	if (!status) return;
 	simwid->SetJ(val);
-	std::cout << "J is now set to: " << val << std::endl;
-	
 }
 
 void IsingWindow::set_b() {
@@ -49,7 +55,12 @@ void IsingWindow::set_b() {
 	double val = lne_b->text().toDouble(&status);
 	if (!status) return;
 	simwid->SetBeta(val);
-	std::cout << "beta is now set to: " << val << std::endl;
+}
+
+void IsingWindow::toggle_simulation(bool sstate) {
+	if (sstate) { btn_start->setText("Stop"); }
+	else { btn_start->setText("Start"); }
+	simwid->ToggleSimulation(sstate);
 }
 
 
@@ -62,6 +73,8 @@ IsingWidget::IsingWidget (unsigned M, unsigned N, double J,
 	: running(false) {
 
 	Q_UNUSED(parent);
+	
+	iterations = 100;
 	imc = new IsingMC(M, N, J, beta);
 	setFixedWidth(M);
 	setFixedHeight(N);
@@ -75,14 +88,11 @@ IsingWidget::~IsingWidget () {
 void IsingWidget::paintEvent (QPaintEvent *e) {
 
 	Q_UNUSED(e);
-	return;
 
 	QPainter qp(this);
-	unsigned PenSize = 2;
+	unsigned PenSize = 1;
 	unsigned offset = PenSize ? PenSize : 1;
 
-	for (unsigned i = 0; i < 100 // imc->XSize() * imc->YSize()
-		     ;i++) imc->Step();
 	// std::cout << imc->Energy() << std::endl;
 
 	// std::cout << "Energy: " << imc->Energy()
@@ -105,18 +115,31 @@ void IsingWidget::paintEvent (QPaintEvent *e) {
 
 void IsingWidget::SetJ (double val) { imc->SetJ(val); }
 void IsingWidget::SetBeta (double val) { imc->SetBeta(val); }
-double IsingWidget::Energy () { return imc->Energy(val); }
-double IsingWidget::Magnetization () { return imc->Magnetization(val); }
+double IsingWidget::Energy () { return imc->Energy(); }
+double IsingWidget::Magnetization () { return imc->Magnetization(); }
 
 void IsingWidget::simulationThread(unsigned num) {
-	while (true) {
+	while (running) {
 		for (unsigned i = 0; i < num; i++) {
-			mtx.lock();
-			if (running) {
-				imc->Step();
-			}
-			mtx.unlock();
+			imc->Step();
 		}
-		emit paintEvent(0);
+		// emit paintEvent(0);
+		update();
 	}
+}
+
+void IsingWidget::ToggleSimulation(bool sstate) {
+	std::cout << "state of simulation before changing: " << running << std::endl;
+	if (sstate) { startSimulation(); }
+	else { stopSimulation(); }
+}
+
+void IsingWidget::startSimulation() {
+	if (running) return;
+	std::thread(&IsingWidget::simulationThread, this, iterations).detach();
+	running = true;
+}
+
+void IsingWidget::stopSimulation() {
+	running = false;
 }

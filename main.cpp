@@ -4,11 +4,11 @@
 
 int main(int argc, char *argv[]) {
 
-	unsigned NX = 200;
-	unsigned NY = 200;
+	unsigned NX = 500;
+	unsigned NY = 500;
 
 	QApplication app(argc, argv);
-	IsingWindow iw(NX, NY, 1.14, 0.1);
+	IsingWindow iw(NX, NY, 1.14, 0.5);
 
 	// iw.resize(NX, NY);
 	iw.setWindowTitle("2D Ising Monte-Carlo");
@@ -19,7 +19,6 @@ int main(int argc, char *argv[]) {
 	return app.exec();
 
 	while (true) {
-		// iw.repaint();
 		app.processEvents();
 	}
 

@@ -9,8 +9,8 @@
 #include <QHBoxLayout>
 #include <QString>
 #include <QGridLayout>
+#include <QPushButton>
 #include <thread>
-#include <mutex>
 
 #include "IsingMC.hpp"
 
@@ -29,15 +29,19 @@ private:
 	QLineEdit *lne_J, *lne_b;
 	QGridLayout *grid;
 	IsingWidget *simwid;
+	QPushButton *btn_start;
 
 public slots:
 	void set_J();
 	void set_b();
+	void toggle_simulation(bool);
 
 };
 
 // need new widget for ising window
 // with seperate computation thread
+//
+// add start, stop and randomize functionality
 
 class IsingWidget : public QWidget {
 
@@ -50,15 +54,18 @@ public:
 	void SetBeta(double);
 	double Energy();
 	double Magnetization();
+	void ToggleSimulation(bool);
 
 protected:
 	void paintEvent(QPaintEvent *e);
 	void simulationThread(unsigned);
+	void startSimulation();
+	void stopSimulation();
 
 private:
 	IsingMC *imc;
-	std::mutex mtx;
 	bool running;
+	unsigned iterations;
 
 };
 

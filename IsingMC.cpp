@@ -132,6 +132,8 @@ void IsingMC::Step() {
 	while (true) {
 		RandomPoint(i, j);
 
+		// std::cout << i << '\t' << j << std::endl;
+
 		double de = EnergyDiff(i, j);
 
 		// {
