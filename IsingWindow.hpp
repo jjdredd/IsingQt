@@ -9,8 +9,12 @@
 #include <QHBoxLayout>
 #include <QString>
 #include <QGridLayout>
+#include <thread>
+#include <mutex>
 
 #include "IsingMC.hpp"
+
+class IsingWidget;
 
 class IsingWindow : public QMainWindow {
 
@@ -20,24 +24,43 @@ public:
 	IsingWindow(unsigned, unsigned, double, double, QWidget *parent = 0);
 	~IsingWindow();
 
-protected:
-	void paintEvent(QPaintEvent *e);
-
 private:
-	IsingMC *imc;
 	QFormLayout *form;
 	QLineEdit *lne_J, *lne_b;
 	QGridLayout *grid;
-	QWidget *testsim;
+	IsingWidget *simwid;
 
 public slots:
-	void le_set_J();
-	void le_set_b();
+	void set_J();
+	void set_b();
 
 };
 
 // need new widget for ising window
 // with seperate computation thread
+
+class IsingWidget : public QWidget {
+
+	Q_OBJECT;
+
+public:
+	IsingWidget(unsigned, unsigned, double, double, QWidget *parent = 0);
+	~IsingWidget();
+	void SetJ(double);
+	void SetBeta(double);
+	double Energy();
+	double Magnetization();
+
+protected:
+	void paintEvent(QPaintEvent *e);
+	void simulationThread(unsigned);
+
+private:
+	IsingMC *imc;
+	std::mutex mtx;
+	bool running;
+
+};
 
 
 #endif	// #ifndef _ISING_WINDOW_
