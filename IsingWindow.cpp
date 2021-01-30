@@ -79,10 +79,15 @@ IsingWidget::IsingWidget (unsigned M, unsigned N, double J,
 	setFixedWidth(M);
 	setFixedHeight(N);
 
+	render_timer = new QTimer(this);
+	connect(render_timer, SIGNAL (timeout()), this, SLOT (update()) );
+	render_timer->start(100);
+
 }
 
 IsingWidget::~IsingWidget () {
 	delete imc;
+	delete render_timer;
 }
 
 void IsingWidget::paintEvent (QPaintEvent *e) {
@@ -92,12 +97,6 @@ void IsingWidget::paintEvent (QPaintEvent *e) {
 	QPainter qp(this);
 	unsigned PenSize = 1;
 	unsigned offset = PenSize ? PenSize : 1;
-
-	// std::cout << imc->Energy() << std::endl;
-
-	// std::cout << "Energy: " << imc->Energy()
-	// 	  << " Magnetization: " << imc->Magnetization()
-	// 	  << std::endl;
 
 	QPen WhitePen(Qt::white, PenSize, Qt::SolidLine),
 		BlackPen(Qt::black, PenSize, Qt::SolidLine);
@@ -123,13 +122,10 @@ void IsingWidget::simulationThread(unsigned num) {
 		for (unsigned i = 0; i < num; i++) {
 			imc->Step();
 		}
-		// emit paintEvent(0);
-		update();
 	}
 }
 
 void IsingWidget::ToggleSimulation(bool sstate) {
-	std::cout << "state of simulation before changing: " << running << std::endl;
 	if (sstate) { startSimulation(); }
 	else { stopSimulation(); }
 }

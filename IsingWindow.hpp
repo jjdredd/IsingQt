@@ -10,6 +10,7 @@
 #include <QString>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QTimer>
 #include <thread>
 
 #include "IsingMC.hpp"
@@ -66,6 +67,7 @@ private:
 	IsingMC *imc;
 	bool running;
 	unsigned iterations;
+	QTimer *render_timer;
 
 };
 
