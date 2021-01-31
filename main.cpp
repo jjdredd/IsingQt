@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[]) {
 
-	unsigned NX = 100;
-	unsigned NY = 100;
+	unsigned NX = 200;
+	unsigned NY = 200;
 
 	QApplication app(argc, argv);
 	IsingWindow iw(NX, NY, 1.14, 0.5);

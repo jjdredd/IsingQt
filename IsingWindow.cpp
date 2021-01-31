@@ -1,15 +1,19 @@
 #include <iostream>
-#include <QPainter>
 #include "IsingWindow.hpp"
 
 IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 			 double beta, QWidget *parent)
 	: QMainWindow(parent) {
 
+	l_mag = new QLabel(this);
+	l_e = new QLabel(this);
 	simwid = new IsingWidget(M, N, J, beta, parent);
 	grid = new QGridLayout;
 
 	setCentralWidget(new QWidget);
+
+	l_mag->setText("Magnetization:");
+	l_e->setText("Energy:");
 
 	lne_J = new QLineEdit( QString(std::to_string(J).c_str()) );
 	lne_b = new QLineEdit( QString(std::to_string(beta).c_str()) );
@@ -27,7 +31,9 @@ IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 
 	grid->addLayout(form, 0, 2);
 	grid->addWidget(simwid, 0, 0, 2, 2);
-	grid->addWidget(btn_start, 1, 2);
+	grid->addWidget(l_mag, 1, 2);
+	grid->addWidget(l_e, 2, 2);
+	grid->addWidget(btn_start, 3, 2);
 
 	centralWidget()->setLayout(grid);
 
@@ -35,6 +41,8 @@ IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 
 IsingWindow::~IsingWindow() {
 	toggle_simulation(false); // XXX FIXME (data races)
+	delete l_mag;
+	delete l_e;
 	delete lne_J;
 	delete lne_b;
 	delete btn_start;
@@ -81,7 +89,7 @@ IsingWidget::IsingWidget (unsigned M, unsigned N, double J,
 
 	render_timer = new QTimer(this);
 	connect(render_timer, SIGNAL (timeout()), this, SLOT (update()) );
-	render_timer->start(100);
+	render_timer->start(10);
 
 }
 

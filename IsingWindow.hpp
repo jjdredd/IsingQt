@@ -11,6 +11,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QTimer>
+#include <QLabel>
 #include <thread>
 
 #include "IsingMC.hpp"
@@ -26,11 +27,13 @@ public:
 	~IsingWindow();
 
 private:
+
 	QFormLayout *form;
 	QLineEdit *lne_J, *lne_b;
 	QGridLayout *grid;
 	IsingWidget *simwid;
 	QPushButton *btn_start;
+	QLabel *l_mag, *l_e;
 
 public slots:
 	void set_J();
