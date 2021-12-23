@@ -15,6 +15,12 @@ IsingWindow::IsingWindow(unsigned M, unsigned N, double J,
 	l_mag->setText("Magnetization:");
 	l_e->setText("Energy:");
 
+	connect(simwid, SIGNAL(GetMagnetization(const QString &)),
+		l_mag, SLOT(setText(const QString &)) );
+
+	connect(simwid, SIGNAL(GetEnergy(const QString &)),
+		l_e, SLOT(setText(const QString &)) );
+
 	lne_J = new QLineEdit( QString(std::to_string(J).c_str()) );
 	lne_b = new QLineEdit( QString(std::to_string(beta).c_str()) );
 
@@ -88,8 +94,11 @@ IsingWidget::IsingWidget (unsigned M, unsigned N, double J,
 	setFixedHeight(N);
 
 	render_timer = new QTimer(this);
+	text_timer = new QTimer(this);
 	connect(render_timer, SIGNAL (timeout()), this, SLOT (update()) );
+	connect(text_timer, SIGNAL (timeout()), this, SLOT (OutputTextData()) );
 	render_timer->start(10);
+	text_timer->start(500);
 
 }
 
@@ -146,4 +155,17 @@ void IsingWidget::startSimulation() {
 
 void IsingWidget::stopSimulation() {
 	running = false;
+}
+
+
+void IsingWidget::OutputTextData() {
+
+	QString magnet("Magnetization: ");
+	QString energy("Energy: ");
+
+	magnet += QString::number(Magnetization());
+	energy += QString::number(Energy());
+
+	emit GetMagnetization(magnet);
+	emit GetEnergy(energy);
 }

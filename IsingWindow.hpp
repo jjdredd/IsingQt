@@ -60,6 +60,13 @@ public:
 	double Magnetization();
 	void ToggleSimulation(bool);
 
+signals:
+	void GetMagnetization(const QString &);
+	void GetEnergy(const QString &);
+
+public slots:
+	void OutputTextData();
+
 protected:
 	void paintEvent(QPaintEvent *e);
 	void simulationThread(unsigned);
@@ -70,7 +77,7 @@ private:
 	IsingMC *imc;
 	bool running;
 	unsigned iterations;
-	QTimer *render_timer;
+	QTimer *render_timer, *text_timer;
 
 };
 

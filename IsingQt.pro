@@ -17,3 +17,4 @@ INCLUDEPATH += .
 HEADERS += IsingMC.hpp IsingWindow.hpp
 SOURCES += IsingMC.cpp IsingWindow.cpp main.cpp
 QT += widgets core
+CONFIG += debug

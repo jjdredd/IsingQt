@@ -40,10 +40,12 @@ void IsingMC::RandomPoint(unsigned& m, unsigned& n) {
 	// m = static_cast<unsigned> (floor (pos / N));
 	// n = pos - m * N;
 
+	double rm = static_cast<double>(RAND_MAX) + 1;
+
 	m = static_cast<unsigned>
-		(floor (static_cast<double> (random()) / RAND_MAX * M));
+		(floor (static_cast<double> (random()) / rm * M));
 	n = static_cast<unsigned>
-		(floor (static_cast<double> (random()) / RAND_MAX * N));
+		(floor (static_cast<double> (random()) / rm * N));
 
 }
 
